@@ -7,7 +7,7 @@ CXXFLAGS += -Werror -Wformat-security -Wignored-qualifiers -Winit-self \
 		-Wtype-limits -Wempty-body -Wlogical-op \
 		-Wmissing-field-initializers -Wctor-dtor-privacy \
 		-Wnon-virtual-dtor -Wstrict-null-sentinel -Wold-style-cast \
-		-Woverloaded-virtual -Wsign-promo -Wextra -pedantic
+		-Woverloaded-virtual -Wsign-promo -Wextra -pedantic -Wno-deprecated
 
 # Directories with source code
 SRC_DIR = src
