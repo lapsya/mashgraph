@@ -9,6 +9,7 @@
 #include "EasyBMP.h"
 #include "linear.h"
 #include "argvparser.h"
+#include "matrix.h"
 
 using std::string;
 using std::vector;
@@ -19,6 +20,9 @@ using std::make_pair;
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::tuple;
+using std::tie;
+using std::make_tuple;
 
 using CommandLineProcessing::ArgvParser;
 
@@ -33,13 +37,13 @@ void LoadFileList(const string& data_file, TFileList* file_list) {
 
     string filename;
     int label;
-    
+
     int char_idx = data_file.size() - 1;
     for (; char_idx >= 0; --char_idx)
         if (data_file[char_idx] == '/' || data_file[char_idx] == '\\')
             break;
     string data_path = data_file.substr(0,char_idx+1);
-    
+
     while(!stream.eof() && !stream.fail()) {
         stream >> filename >> label;
         if (filename.size())
@@ -63,9 +67,9 @@ void LoadImages(const TFileList& file_list, TDataSet* data_set) {
 
 // Save result of prediction to file
 void SavePredictions(const TFileList& file_list,
-                     const TLabels& labels, 
+                     const TLabels& labels,
                      const string& prediction_file) {
-        // Check that list of files and list of labels has equal size 
+        // Check that list of files and list of labels has equal size
     assert(file_list.size() == labels.size());
         // Open 'prediction_file' for writing
     ofstream stream(prediction_file.c_str());
@@ -76,11 +80,57 @@ void SavePredictions(const TFileList& file_list,
     stream.close();
 }
 
+// Unary operator for filtering with Sobel
+class Filter
+{
+public:
+    Matrix<double> kernel;
+    int vert_radius, hor_radius, radius;
+    Filter(Matrix<double> &k): kernel(k), vert_radius(k.n_rows / 2), hor_radius(k.n_rows / 2), radius(k.n_rows / 2){}
+    Matrix<tuple<uint, uint, uint>> operator () (const Matrix<tuple<uint, uint, uint>> &neighbourhood) const
+    {
+        uint size = 2 * radius + 1;
+        uint r, g, b;
+        double red = 0.0, green = 0.0, blue = 0.0;
+        for (uint i = 0; i < size; i++) {
+            for (uint j = 0; j < size; j++) {
+                tie(r, g, b) = neighbourhood(i, j);
+                red += kernel(i, j) * r;
+                green += kernel(i, j) * g;
+                blue += kernel(i, j) * b;
+            }
+        }
+        auto new_neighbourhood = neighbourhood.deep_copy();
+        new_neighbourhood(radius, radius) = make_tuple(uint(red), uint(green), uint(blue));
+        return new_neighbourhood;
+    }
+};
+
+
+
 // Exatract features from dataset.
 // You should implement this function by yourself =)
 void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
     for (size_t image_idx = 0; image_idx < data_set.size(); ++image_idx) {
-        
+        auto image = data_set[image_idx].first;
+        Matrix<tuple<uint, uint, uint>> image_matrix;
+        for (int i = 0; i < image->TellWidth(); i++) {
+            for (int j = 0; j < image->TellHeight(); j++) {
+                RGBApixel pixel = image->GetPixel(i, j);
+                int s = pixel.Red + pixel.Green + pixel.Blue;
+                // image->SetPixel(i, j, RGBApixel(s, s, s));
+                image_matrix(i, j) = make_tuple(uint(s), uint(s), uint(s));
+            }
+        }
+        Matrix<double> kernel_hor = {{-1, 0, 1},
+                                    {-2, 0, 2},
+                                    {-1, 0, 1}};
+        Matrix<double> kernel_ver = {{ 1,  2,  1},
+                                    { 0,  0,  0},
+                                    {-1, -2, -1}};
+        auto hor_Sobel = image_matrix.unary_map(Filter(kernel_hor));
+        auto ver_Sobel = image_matrix.unary_map(Filter(kernel_ver));
+
         // PLACE YOUR CODE HERE
         // Remove this sample code and place your feature extraction code here
         vector<float> one_image_features;
@@ -113,7 +163,7 @@ void TrainClassifier(const string& data_file, const string& model_file) {
     TModel model;
         // Parameters of classifier
     TClassifierParams params;
-    
+
         // Load list of image file names and its labels
     LoadFileList(data_file, &file_list);
         // Load images
@@ -123,6 +173,8 @@ void TrainClassifier(const string& data_file, const string& model_file) {
 
         // PLACE YOUR CODE HERE
         // You can change parameters of classifier here
+
+
     params.C = 0.01;
     TClassifier classifier(params);
         // Train classifier
@@ -154,7 +206,7 @@ void PredictData(const string& data_file,
         // Extract features from images
     ExtractFeatures(data_set, &features);
 
-        // Classifier 
+        // Classifier
     TClassifier classifier = TClassifier(TClassifierParams());
         // Trained model
     TModel model;
@@ -186,7 +238,7 @@ int main(int argc, char** argv) {
         ArgvParser::OptionRequiresValue);
     cmd.defineOption("train", "Train classifier");
     cmd.defineOption("predict", "Predict dataset");
-        
+
         // Add options aliases
     cmd.defineOptionAlternative("data_set", "d");
     cmd.defineOptionAlternative("model", "m");
@@ -203,7 +255,7 @@ int main(int argc, char** argv) {
         return result;
     }
 
-        // Get values 
+        // Get values
     string data_file = cmd.optionValue("data_set");
     string model_file = cmd.optionValue("model");
     bool train = cmd.foundOption("train");
