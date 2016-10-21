@@ -111,6 +111,10 @@ public:
 // Extract features from dataset.
 // You should implement this function by yourself =)
 void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
+    // pre-define constants for histograms
+    const int n_blocks = 128;
+    const int n_segments = 32;
+
     for (size_t image_idx = 0; image_idx < data_set.size(); ++image_idx) {
         auto image = data_set[image_idx].first;
 
@@ -140,8 +144,8 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
         Matrix<float> grad_angle(hor_Sobel.n_rows, hor_Sobel.n_cols);
 
         // compute gradients
-        for (uint i = 0; i < hor_Sobel.n_rows; i++) {
-            for (uint j = 0; j < hor_Sobel.n_cols; j++) {
+        for (uint i = 0; i < hor_Sobel.n_rows; ++i) {
+            for (uint j = 0; j < hor_Sobel.n_cols; ++j) {
                 auto x = hor_Sobel(i, j);
                 auto y = ver_Sobel(i, j);
                 grad_abs(i, j) = x * x + y * y;
@@ -151,15 +155,50 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
 
         // compute histogram
 
-        /*
-        // PLACE YOUR CODE HERE
-        // Remove this sample code and place your feature extraction code here
-        vector<float> one_image_features;
-        one_image_features.push_back(1.0);
-        features->push_back(make_pair(one_image_features, 1));
-        // End of sample code
-        */
+        vector<float> image_features;
+        int side_blocks = sqrt(n_blocks);
+        int hor_block_size = grad_abs.n_rows / side_blocks;
+        int ver_block_size = grad_abs.n_cols / side_blocks;
+        for (int i = 0; i < side_blocks; ++i) {
+            for (int j = 0; j < side_blocks; ++j) {
 
+                // define block borders
+                int start_row = hor_block_size * i;
+                int start_col = ver_block_size * j;
+                int n_block_rows = (i == side_blocks - 1) ? grad_abs.n_rows - start_row : hor_block_size;
+                int n_block_cols = (j == side_blocks - 1) ? grad_abs.n_cols - start_col : ver_block_size;
+
+                // cut the block out
+                auto block_abs = grad_abs.submatrix(start_row, start_col, n_block_rows, n_block_cols);
+                auto block_angle = grad_angle.submatrix(start_row, start_col, n_block_rows, n_block_cols);
+
+                // create histogram vector
+                vector<float> histogram(n_segments, 0.0);
+                for (uint row = 0; row < grad_angle.n_rows; ++row) {
+                    for (uint col = 0; col < grad_angle.n_cols; ++col) {
+                        int segment = floor(grad_angle(row, col) / (2 * M_PI / n_segments));
+                        if (segment == n_segments / 2) {
+                            segment = -segment;
+                        }
+                        segment += n_segments / 2;
+                        histogram[segment] += grad_abs(row, col);
+                    }
+                }
+
+                // compute the histogram norm
+                float histogram_norm = 0.0;
+                for (auto iter = histogram.begin(); iter != histogram.end(); ++iter) {
+                    histogram_norm += (*iter) * (*iter);
+                }
+
+                // normalize the histogram
+                for (auto iter = histogram.begin(); iter != histogram.end(); ++iter) {
+                    *iter /= histogram_norm;
+                }
+                image_features.insert(image_features.end(), histogram.begin(), histogram.end());
+            }
+        }
+        features->push_back(make_pair(image_features, data_set[image_idx].second));
     }
 }
 
