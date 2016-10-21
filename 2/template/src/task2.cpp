@@ -23,6 +23,7 @@ using std::endl;
 using std::tuple;
 using std::tie;
 using std::make_tuple;
+using std::get;
 
 using CommandLineProcessing::ArgvParser;
 
@@ -81,62 +82,83 @@ void SavePredictions(const TFileList& file_list,
 }
 
 // Unary operator for filtering with Sobel
+template <typename ValueT>
 class Filter
 {
 public:
-    Matrix<double> kernel;
+    Matrix<ValueT> kernel;
+
+    // Excessive variables requested by unary_map
     int vert_radius, hor_radius, radius;
-    Filter(Matrix<double> &k): kernel(k), vert_radius(k.n_rows / 2), hor_radius(k.n_rows / 2), radius(k.n_rows / 2){}
-    Matrix<tuple<uint, uint, uint>> operator () (const Matrix<tuple<uint, uint, uint>> &neighbourhood) const
+
+    Filter(Matrix<ValueT> &k): kernel(k), vert_radius(k.n_rows / 2), hor_radius(k.n_rows / 2), radius(k.n_rows / 2) {}
+
+    ValueT operator () (const Matrix<ValueT> &neighbourhood) const
     {
         uint size = 2 * radius + 1;
-        uint r, g, b;
-        double red = 0.0, green = 0.0, blue = 0.0;
+        ValueT new_value{};
         for (uint i = 0; i < size; i++) {
             for (uint j = 0; j < size; j++) {
-                tie(r, g, b) = neighbourhood(i, j);
-                red += kernel(i, j) * r;
-                green += kernel(i, j) * g;
-                blue += kernel(i, j) * b;
+                new_value += neighbourhood(i, j) * kernel(i, j);
             }
         }
-        auto new_neighbourhood = neighbourhood.deep_copy();
-        new_neighbourhood(radius, radius) = make_tuple(uint(red), uint(green), uint(blue));
-        return new_neighbourhood;
+        return new_value;
     }
 };
 
 
 
-// Exatract features from dataset.
+// Extract features from dataset.
 // You should implement this function by yourself =)
 void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
     for (size_t image_idx = 0; image_idx < data_set.size(); ++image_idx) {
         auto image = data_set[image_idx].first;
-        Matrix<tuple<uint, uint, uint>> image_matrix;
+
+        // turn image into brightness matrix
+        Matrix<float> image_matrix;
         for (int i = 0; i < image->TellWidth(); i++) {
             for (int j = 0; j < image->TellHeight(); j++) {
                 RGBApixel pixel = image->GetPixel(i, j);
                 int s = pixel.Red + pixel.Green + pixel.Blue;
                 // image->SetPixel(i, j, RGBApixel(s, s, s));
-                image_matrix(i, j) = make_tuple(uint(s), uint(s), uint(s));
+                image_matrix(i, j) = s;
             }
         }
-        Matrix<double> kernel_hor = {{-1, 0, 1},
+
+        // initialize Sobel kernels
+        Matrix<float> kernel_hor = {{-1, 0, 1},
                                     {-2, 0, 2},
                                     {-1, 0, 1}};
-        Matrix<double> kernel_ver = {{ 1,  2,  1},
+        Matrix<float> kernel_ver = {{ 1,  2,  1},
                                     { 0,  0,  0},
                                     {-1, -2, -1}};
-        auto hor_Sobel = image_matrix.unary_map(Filter(kernel_hor));
-        auto ver_Sobel = image_matrix.unary_map(Filter(kernel_ver));
 
+        // perform convolution
+        Matrix<float> hor_Sobel = image_matrix.unary_map(Filter<float>(kernel_hor));
+        Matrix<float> ver_Sobel = image_matrix.unary_map(Filter<float>(kernel_ver));
+        Matrix<float> grad_abs(hor_Sobel.n_rows, hor_Sobel.n_cols);
+        Matrix<float> grad_angle(hor_Sobel.n_rows, hor_Sobel.n_cols);
+
+        // compute gradients
+        for (uint i = 0; i < hor_Sobel.n_rows; i++) {
+            for (uint j = 0; j < hor_Sobel.n_cols; j++) {
+                auto x = hor_Sobel(i, j);
+                auto y = ver_Sobel(i, j);
+                grad_abs(i, j) = x * x + y * y;
+                grad_angle(i, j) = atan2(y, x);
+            }
+        }
+
+        // compute histogram
+
+        /*
         // PLACE YOUR CODE HERE
         // Remove this sample code and place your feature extraction code here
         vector<float> one_image_features;
         one_image_features.push_back(1.0);
         features->push_back(make_pair(one_image_features, 1));
         // End of sample code
+        */
 
     }
 }
