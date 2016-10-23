@@ -253,7 +253,47 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
         for (auto iter = lbp_features.begin(); iter != lbp_features.end(); ++iter) {
             image_features.push_back(*iter);
         }
-        
+
+        // color features
+        const int color_side_blocks = 8;
+        vector<float> color_features;
+        uint color_ver_block_size = image->TellHeight() / color_side_blocks;
+        uint color_hor_block_size = image->TellWidth() / color_side_blocks;
+
+
+        for (int i = 0; i < color_side_blocks; ++i) {
+            for (int j = 0; j < color_side_blocks; ++j) {
+                // define block borders
+                uint start_row = color_ver_block_size * i;
+                uint start_col = color_hor_block_size * j;
+                uint block_rows = (i == side_blocks - 1) ? image->TellHeight() - start_row : color_ver_block_size;
+                uint block_cols = (j == side_blocks - 1) ? image->TellWidth() - start_col : color_hor_block_size;
+
+                // calculate average color values
+                float avg_red = 0.0, avg_green = 0.0, avg_blue = 0.0;
+                for (uint row = start_row; row < start_row + color_ver_block_size; ++row) {
+                    for (uint col = start_col; col < start_col + color_hor_block_size; ++col) {
+                        auto pixel = image->GetPixel(col, row);
+                        avg_red += pixel.Red;
+                        avg_green += pixel.Green;
+                        avg_blue += pixel.Blue;
+                    }
+                }
+                int area = block_cols * block_rows;
+                avg_red /= area * 255;
+                avg_green /= area * 255;
+                avg_blue /= area * 255;
+                color_features.push_back(avg_red);
+                color_features.push_back(avg_green);
+                color_features.push_back(avg_blue);
+            }
+        }
+
+        // concatenate color features with HOG features
+        for (auto iter = color_features.begin(); iter != color_features.end(); ++iter) {
+            image_features.push_back(*iter);
+        }
+
         features->push_back(make_pair(image_features, data_set[image_idx].second));
     }
 }
