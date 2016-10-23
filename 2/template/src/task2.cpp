@@ -136,7 +136,8 @@ public:
 // Extract features from dataset.
 // You should implement this function by yourself =)
 void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
-    // pre-define constants for histograms
+
+    // pre-define constants for HOG and LBP histograms
     const int n_blocks = 256;
     const int n_segments = 32;
     for (size_t image_idx = 0; image_idx < data_set.size(); ++image_idx) {
