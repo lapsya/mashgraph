@@ -106,6 +106,31 @@ public:
     }
 };
 
+// Unary operator for local binary pattern
+class LBP
+{
+public:
+    const int radius = 1;
+    const int vert_radius = 1;
+    const int hor_radius = 1;
+    LBP() {}
+    float operator () (const Matrix<float> &neighbourhood) const
+    {
+        int size = 2 * radius + 1;
+        float lbp_value = 0;
+        float center = neighbourhood(radius, radius);
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                if (i == radius && j == radius) {
+                    continue;
+                }
+                lbp_value *= 2;
+                lbp_value += neighbourhood(i, j) > center ? 1 : 0;
+            }
+        }
+        return lbp_value;
+    }
+};
 
 
 // Extract features from dataset.
@@ -150,8 +175,14 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
                 grad_angle(i, j) = atan2(y, x);
             }
         }
-        // compute histogram
+
+        //compute LBP values for each pixel
+        auto lbp_matrix = image_matrix.unary_map(LBP());
+
+        // compute HOG and LBP histograms
         vector<float> image_features;
+        vector<float> lbp_features;
+
         int side_blocks = sqrt(n_blocks);
         int ver_block_size = grad_abs.n_rows / side_blocks;
         int hor_block_size = grad_abs.n_cols / side_blocks;
@@ -167,9 +198,10 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
                 // cut the block out
                 auto block_abs = grad_abs.submatrix(start_row, start_col, block_rows, block_cols);
                 auto block_angle = grad_angle.submatrix(start_row, start_col, block_rows, block_cols);
+                auto block_lbp = lbp_matrix.submatrix(start_row, start_col, block_rows, block_cols);
 
-                // create histogram vector
-                vector<float> histogram(n_segments, 0.0);
+                // create HOG histogram vector
+                vector<float> hog_histogram(n_segments, 0.0);
                 for (uint row = 0; row < block_angle.n_rows; ++row) {
                     for (uint col = 0; col < block_angle.n_cols; ++col) {
                         int segment = floor(block_angle(row, col) / (2 * M_PI / n_segments));
@@ -177,24 +209,51 @@ void ExtractFeatures(const TDataSet& data_set, TFeatures* features) {
                             segment = -segment;
                         }
                         segment += n_segments / 2;
-                        histogram[segment] += block_abs(row, col);
+                        hog_histogram[segment] += block_abs(row, col);
                     }
                 }
 
-                // compute the histogram norm
-                float histogram_norm = 0.0;
-                for (auto iter = histogram.begin(); iter != histogram.end(); ++iter) {
-                    histogram_norm += (*iter) * (*iter);
+                // compute the HOG histogram norm
+                float hog_histogram_norm = 0.0;
+                for (auto iter = hog_histogram.begin(); iter != hog_histogram.end(); ++iter) {
+                    hog_histogram_norm += (*iter) * (*iter);
                 }
-                histogram_norm = histogram_norm > 0.000001 ? sqrt(histogram_norm) : 1.0;
+                hog_histogram_norm = hog_histogram_norm > 0.000001 ? sqrt(hog_histogram_norm) : 1.0;
 
-                // normalize the histogram
-                for (auto iter = histogram.begin(); iter != histogram.end(); ++iter) {
-                    *iter /= histogram_norm;
+                // normalize the HOG histogram and add features
+                for (auto iter = hog_histogram.begin(); iter != hog_histogram.end(); ++iter) {
+                    *iter /= hog_histogram_norm;
                     image_features.push_back(*iter);
+                }
+
+                // compute LBP histogram vector
+                vector<float> lbp_histogram(256, 0.0);
+                for (uint row = 0; row < block_lbp.n_rows; ++row) {
+                    for (uint col = 0; col < block_lbp.n_cols; ++col) {
+                        ++lbp_histogram[block_lbp(row, col)];
+                    }
+                }
+
+                // compute the LBP histogram norm
+                float lbp_histogram_norm = 0.0;
+                for (auto iter = lbp_histogram.begin(); iter != lbp_histogram.end(); ++iter) {
+                    lbp_histogram_norm += (*iter) * (*iter);
+                }
+                lbp_histogram_norm = lbp_histogram_norm > 0.000001 ? sqrt(lbp_histogram_norm) : 1.0;
+
+                // normalize the LBP histogram
+                for (auto iter = lbp_histogram.begin(); iter != lbp_histogram.end(); ++iter) {
+                    *iter /= lbp_histogram_norm;
+                    lbp_features.push_back(*iter);
                 }
             }
         }
+
+        // concatenate LBP features with HOG features
+        for (auto iter = lbp_features.begin(); iter != lbp_features.end(); ++iter) {
+            image_features.push_back(*iter);
+        }
+        
         features->push_back(make_pair(image_features, data_set[image_idx].second));
     }
 }
