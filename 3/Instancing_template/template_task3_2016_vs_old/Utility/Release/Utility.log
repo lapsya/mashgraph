@@ -1,0 +1,57 @@
+﻿Сборка начата 03.11.2016 19:37:11.
+     1>Проект "D:\[PROG]\[Graphics]\template_task3_2016_v1\Utility\Utility.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Camera.cpp src\GL.cpp src\mat4.cpp src\Overall.cpp src\ShaderProgram.cpp src\Texture.cpp src\uvec3.cpp src\vec2.cpp src\vec3.cpp src\vec4.cpp
+         Camera.cpp
+         GL.cpp
+     1>src\GL.cpp(15): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(19): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(23): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(27): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(31): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(35): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(39): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(43): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(47): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+     1>src\GL.cpp(54): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+         mat4.cpp
+         Overall.cpp
+         ShaderProgram.cpp
+     1>src\ShaderProgram.cpp(13): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356): см. объявление "sprintf"
+         Texture.cpp
+         uvec3.cpp
+     1>src\uvec3.cpp(28): warning C4146: применение унарного минуса к типу без знака; результат оставлен без знака
+     1>src\uvec3.cpp(102): warning C4244: return: преобразование "double" в "uint", возможна потеря данных
+         vec2.cpp
+     1>src\vec2.cpp(38): warning C4244: аргумент: преобразование "const double" в "const float", возможна потеря данных
+     1>src\vec2.cpp(46): warning C4244: аргумент: преобразование "const double" в "const float", возможна потеря данных
+         vec3.cpp
+         vec4.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\[PROG]\[Graphics]\template_task3_2016_v1\Release\Utility.lib" /NOLOGO /LTCG Release\Camera.obj
+         Release\GL.obj
+         Release\mat4.obj
+         Release\Overall.obj
+         Release\ShaderProgram.obj
+         Release\Texture.obj
+         Release\uvec3.obj
+         Release\vec2.obj
+         Release\vec3.obj
+         Release\vec4.obj
+         Utility.vcxproj -> D:\[PROG]\[Graphics]\template_task3_2016_v1\Release\Utility.lib
+     1>Сборка проекта "D:\[PROG]\[Graphics]\template_task3_2016_v1\Utility\Utility.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:04.75

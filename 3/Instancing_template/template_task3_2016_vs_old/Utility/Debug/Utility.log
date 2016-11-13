@@ -1,0 +1,58 @@
+﻿Сборка начата 03.11.2016 19:34:39.
+     1>Проект "D:\[PROG]\[Graphics]\template_task3_2016_v1\Utility\Utility.vcxproj" в узле 2 (целевые объекты Rebuild).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Camera.cpp src\GL.cpp src\mat4.cpp src\Overall.cpp src\ShaderProgram.cpp src\Texture.cpp src\uvec3.cpp src\vec2.cpp src\vec3.cpp src\vec4.cpp
+         vec4.cpp
+         vec3.cpp
+         vec2.cpp
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\vec2.cpp(38): warning C4244: аргумент: преобразование "const double" в "const float", возможна потеря данных
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\vec2.cpp(46): warning C4244: аргумент: преобразование "const double" в "const float", возможна потеря данных
+         uvec3.cpp
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\uvec3.cpp(28): warning C4146: применение унарного минуса к типу без знака; результат оставлен без знака
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\uvec3.cpp(102): warning C4244: return: преобразование "double" в "uint", возможна потеря данных
+         Texture.cpp
+         ShaderProgram.cpp
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\shaderprogram.cpp(13): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+         Overall.cpp
+         mat4.cpp
+         GL.cpp
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(15): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(19): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(23): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(27): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(31): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(35): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(39): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(43): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(47): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+     1>d:\[prog]\[graphics]\template_task3_2016_v1\utility\src\gl.cpp(54): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356): см. объявление "sprintf"
+         Camera.cpp
+         Создание кода...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\[PROG]\[Graphics]\template_task3_2016_v1\Debug\Utility.lib" /NOLOGO Debug\Camera.obj
+         Debug\GL.obj
+         Debug\mat4.obj
+         Debug\Overall.obj
+         Debug\ShaderProgram.obj
+         Debug\Texture.obj
+         Debug\uvec3.obj
+         Debug\vec2.obj
+         Debug\vec3.obj
+         Debug\vec4.obj
+         Utility.vcxproj -> D:\[PROG]\[Graphics]\template_task3_2016_v1\Debug\Utility.lib
+     1>Сборка проекта "D:\[PROG]\[Graphics]\template_task3_2016_v1\Utility\Utility.vcxproj" завершена (целевые объекты Rebuild).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:05.20

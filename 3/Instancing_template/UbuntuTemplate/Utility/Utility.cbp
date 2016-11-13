@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Utility" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="../bin/lib/Utility" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add directory="include" />
+			<Add directory="include/GL" />
+			<Add directory="include/VM" />
+			<Add directory="../External/include/GL" />
+			<Add directory="../Simple OpenGL Image Library/src" />
+		</Compiler>
+		<Unit filename="include/GL.h" />
+		<Unit filename="include/GL/Camera.h" />
+		<Unit filename="include/GL/ShaderProgram.h" />
+		<Unit filename="include/GL/Texture.h" />
+		<Unit filename="include/Overall.h" />
+		<Unit filename="include/Utility.h" />
+		<Unit filename="include/VM/mat4.h" />
+		<Unit filename="include/VM/uvec3.h" />
+		<Unit filename="include/VM/vec2.h" />
+		<Unit filename="include/VM/vec3.h" />
+		<Unit filename="include/VM/vec4.h" />
+		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/GL.cpp" />
+		<Unit filename="src/Overall.cpp" />
+		<Unit filename="src/ShaderProgram.cpp" />
+		<Unit filename="src/Texture.cpp" />
+		<Unit filename="src/mat4.cpp" />
+		<Unit filename="src/uvec3.cpp" />
+		<Unit filename="src/vec2.cpp" />
+		<Unit filename="src/vec3.cpp" />
+		<Unit filename="src/vec4.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

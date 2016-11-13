@@ -1,0 +1,386 @@
+# depslib dependency file v1.0
+1478012881 source:d:\dropbox\radiosity\instancing\main.cpp
+	<iostream>
+	<vector>
+	"Utility.h"
+
+1477140153 d:\dropbox\radiosity\instancing\utility\include\utility.h
+	"VM\uvec3.h"
+	"GL\Camera.h"
+	"GL\Mesh.h"
+
+1477138729 d:\dropbox\radiosity\instancing\utility\include\vm\uvec3.h
+	<iostream>
+	"Overall.h"
+
+1473202721 d:\dropbox\radiosity\instancing\utility\include\overall.h
+	<string>
+	<fstream>
+	<streambuf>
+
+1477138327 d:\dropbox\radiosity\instancing\utility\include\gl\camera.h
+	<cmath>
+	"ViewPoint.h"
+
+1477138366 d:\dropbox\radiosity\instancing\utility\include\gl\viewpoint.h
+	"mat4.h"
+
+1477138376 d:\dropbox\radiosity\instancing\utility\include\vm\mat4.h
+	<array>
+	"vec4.h"
+
+1477947427 d:\dropbox\radiosity\instancing\utility\include\vm\vec4.h
+	"vec3.h"
+
+1477138387 d:\dropbox\radiosity\instancing\utility\include\vm\vec3.h
+	<iostream>
+	"Overall.h"
+
+1477749636 d:\dropbox\radiosity\instancing\utility\include\gl\mesh.h
+	"Buffer.h"
+	"Material.h"
+	"RWTexture.h"
+	"ShaderProgram.h"
+
+1477758931 d:\dropbox\radiosity\instancing\utility\include\gl\buffer.h
+	<vector>
+	<map>
+	"Overall.h"
+	"GL.h"
+	"vec4.h"
+	"vec2.h"
+	"mat4.h"
+
+1477137943 d:\dropbox\radiosity\instancing\utility\include\gl.h
+	"glew.h"
+	"freeglut.h"
+	<gl.h>
+	<string>
+	<cstdio>
+	<map>
+
+1439232890 d:\dropbox\radiosity\instancing\external\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1426338928 d:\dropbox\radiosity\instancing\external\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1426338928 d:\dropbox\radiosity\instancing\external\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426338928 d:\dropbox\radiosity\instancing\external\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1477138739 d:\dropbox\radiosity\instancing\utility\include\vm\vec2.h
+	<iostream>
+	<cassert>
+	<cmath>
+	"Overall.h"
+
+1477138442 d:\dropbox\radiosity\instancing\utility\include\gl\material.h
+	"vec4.h"
+	"Texture.h"
+
+1477138508 d:\dropbox\radiosity\instancing\utility\include\gl\texture.h
+	<map>
+	<set>
+	"GL.h"
+	"Image.h"
+	"ShaderProgram.h"
+
+1477138418 d:\dropbox\radiosity\instancing\utility\include\gl\image.h
+	<vector>
+	<cmath>
+	"SOIL.h"
+	"Overall.h"
+	"vec4.h"
+	"vec2.h"
+
+1460624165 d:\dropbox\radiosity\instancing\simple opengl image library\src\soil.h
+
+1477138665 d:\dropbox\radiosity\instancing\utility\include\gl\shaderprogram.h
+	<cmath>
+	"GL.h"
+	"mat4.h"
+	"SpotLightSource.h"
+	"ViewPoint.h"
+
+1477138704 d:\dropbox\radiosity\instancing\utility\include\gl\spotlightsource.h
+	<cmath>
+	"ViewPoint.h"
+
+1477946520 d:\dropbox\radiosity\instancing\utility\include\gl\rwtexture.h
+	"Texture.h"
+
+1478014259 source:c:\users\frol\dropbox\instancing\main.cpp
+	<iostream>
+	<vector>
+	"Utility.h"
+
+1477140153 c:\users\frol\dropbox\instancing\utility\include\utility.h
+	"VM\uvec3.h"
+	"GL\Camera.h"
+	"GL\Mesh.h"
+
+1477138729 c:\users\frol\dropbox\instancing\utility\include\vm\uvec3.h
+	<iostream>
+	"Overall.h"
+
+1473202721 c:\users\frol\dropbox\instancing\utility\include\overall.h
+	<string>
+	<fstream>
+	<streambuf>
+
+1477138327 c:\users\frol\dropbox\instancing\utility\include\gl\camera.h
+	<cmath>
+	"ViewPoint.h"
+
+1477138366 c:\users\frol\dropbox\instancing\utility\include\gl\viewpoint.h
+	"mat4.h"
+
+1477138376 c:\users\frol\dropbox\instancing\utility\include\vm\mat4.h
+	<array>
+	"vec4.h"
+
+1477947427 c:\users\frol\dropbox\instancing\utility\include\vm\vec4.h
+	"vec3.h"
+
+1477138387 c:\users\frol\dropbox\instancing\utility\include\vm\vec3.h
+	<iostream>
+	"Overall.h"
+
+1477749636 c:\users\frol\dropbox\instancing\utility\include\gl\mesh.h
+	"Buffer.h"
+	"Material.h"
+	"RWTexture.h"
+	"ShaderProgram.h"
+
+1477758931 c:\users\frol\dropbox\instancing\utility\include\gl\buffer.h
+	<vector>
+	<map>
+	"Overall.h"
+	"GL.h"
+	"vec4.h"
+	"vec2.h"
+	"mat4.h"
+
+1477137943 c:\users\frol\dropbox\instancing\utility\include\gl.h
+	"glew.h"
+	"freeglut.h"
+	<gl.h>
+	<string>
+	<cstdio>
+	<map>
+
+1439232890 c:\users\frol\dropbox\instancing\external\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1426338928 c:\users\frol\dropbox\instancing\external\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1426338928 c:\users\frol\dropbox\instancing\external\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426338928 c:\users\frol\dropbox\instancing\external\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1477138739 c:\users\frol\dropbox\instancing\utility\include\vm\vec2.h
+	<iostream>
+	<cassert>
+	<cmath>
+	"Overall.h"
+
+1477138442 c:\users\frol\dropbox\instancing\utility\include\gl\material.h
+	"vec4.h"
+	"Texture.h"
+
+1477138508 c:\users\frol\dropbox\instancing\utility\include\gl\texture.h
+	<map>
+	<set>
+	"GL.h"
+	"Image.h"
+	"ShaderProgram.h"
+
+1477138418 c:\users\frol\dropbox\instancing\utility\include\gl\image.h
+	<vector>
+	<cmath>
+	"SOIL.h"
+	"Overall.h"
+	"vec4.h"
+	"vec2.h"
+
+1460624165 c:\users\frol\dropbox\instancing\simple opengl image library\src\soil.h
+
+1477138665 c:\users\frol\dropbox\instancing\utility\include\gl\shaderprogram.h
+	<cmath>
+	"GL.h"
+	"mat4.h"
+	"SpotLightSource.h"
+	"ViewPoint.h"
+
+1477138704 c:\users\frol\dropbox\instancing\utility\include\gl\spotlightsource.h
+	<cmath>
+	"ViewPoint.h"
+
+1477946520 c:\users\frol\dropbox\instancing\utility\include\gl\rwtexture.h
+	"Texture.h"
+
+1478117596 source:d:\dropbox\radiosity\instancing\template\main.cpp
+	<iostream>
+	<vector>
+	"Utility.h"
+
+1478030127 d:\dropbox\radiosity\instancing\template\utility\include\utility.h
+	"VM\uvec3.h"
+	"VM\vec2.h"
+	"GL\Camera.h"
+	"GL\ShaderProgram.h"
+
+1478030709 d:\dropbox\radiosity\instancing\template\utility\include\vm\uvec3.h
+	<iostream>
+	"Overall.h"
+
+1473202721 d:\dropbox\radiosity\instancing\template\utility\include\overall.h
+	<string>
+	<fstream>
+	<streambuf>
+
+1478030669 d:\dropbox\radiosity\instancing\template\utility\include\gl\camera.h
+	<cmath>
+	"vec3.h"
+	"mat4.h"
+
+1477138366 d:\dropbox\radiosity\instancing\template\utility\include\gl\viewpoint.h
+	"mat4.h"
+
+1477138376 d:\dropbox\radiosity\instancing\template\utility\include\vm\mat4.h
+	<array>
+	"vec4.h"
+
+1478030721 d:\dropbox\radiosity\instancing\template\utility\include\vm\vec4.h
+	"vec3.h"
+
+1478030745 d:\dropbox\radiosity\instancing\template\utility\include\vm\vec3.h
+	<iostream>
+	"Overall.h"
+
+1477749636 d:\dropbox\radiosity\instancing\template\utility\include\gl\mesh.h
+	"Buffer.h"
+	"Material.h"
+	"RWTexture.h"
+	"ShaderProgram.h"
+
+1477758931 d:\dropbox\radiosity\instancing\template\utility\include\gl\buffer.h
+	<vector>
+	<map>
+	"Overall.h"
+	"GL.h"
+	"vec4.h"
+	"vec2.h"
+	"mat4.h"
+
+1478030695 d:\dropbox\radiosity\instancing\template\utility\include\gl.h
+	"glew.h"
+	"freeglut.h"
+	<gl.h>
+	<string>
+	<cstdio>
+	<map>
+
+1439232890 d:\dropbox\radiosity\instancing\template\external\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1426338928 d:\dropbox\radiosity\instancing\template\external\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1426338928 d:\dropbox\radiosity\instancing\template\external\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426338928 d:\dropbox\radiosity\instancing\template\external\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1478030733 d:\dropbox\radiosity\instancing\template\utility\include\vm\vec2.h
+	<iostream>
+	<cassert>
+	<cmath>
+	"Overall.h"
+
+1477138442 d:\dropbox\radiosity\instancing\template\utility\include\gl\material.h
+	"vec4.h"
+	"Texture.h"
+
+1477138508 d:\dropbox\radiosity\instancing\template\utility\include\gl\texture.h
+	<map>
+	<set>
+	"GL.h"
+	"Image.h"
+	"ShaderProgram.h"
+
+1477138418 d:\dropbox\radiosity\instancing\template\utility\include\gl\image.h
+	<vector>
+	<cmath>
+	"SOIL.h"
+	"Overall.h"
+	"vec4.h"
+	"vec2.h"
+
+1460624165 d:\dropbox\radiosity\instancing\template\simple opengl image library\src\soil.h
+
+1478029591 d:\dropbox\radiosity\instancing\template\utility\include\gl\shaderprogram.h
+	<cmath>
+	<iostream>
+	"GL.h"
+	"Overall.h"
+
+1477138704 d:\dropbox\radiosity\instancing\template\utility\include\gl\spotlightsource.h
+	<cmath>
+	"ViewPoint.h"
+
+1477946520 d:\dropbox\radiosity\instancing\template\utility\include\gl\rwtexture.h
+	"Texture.h"
+
