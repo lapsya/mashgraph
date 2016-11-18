@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const uint GRASS_INSTANCES = 16; // Количество травинок
+const uint GRASS_INSTANCES = 1000; // Количество травинок
 
 GL::Camera camera;               // Мы предоставляем Вам реализацию камеры. В OpenGL камера - это просто 2 матрицы. Модельно-видовая матрица и матрица проекции. // ###
                                  // Задача этого класса только в том чтобы обработать ввод с клавиатуры и правильно сформировать эти матрицы.
@@ -170,9 +170,11 @@ void InitializeGLUT(int argc, char **argv) {
     glutInitContextProfile(GLUT_CORE_PROFILE);
     glutInitWindowPosition(-1, -1);
     glutInitWindowSize(screenWidth, screenHeight);
-    glutCreateWindow("Computer Graphics 3");
+    glutCreateWindow("WEED");
     glutWarpPointer(400, 300);
     glutSetCursor(GLUT_CURSOR_NONE);
+    glClearColor(0.678, 0.847, 0.902, 1);
+
 
     glutDisplayFunc(RenderLayouts);
     glutKeyboardFunc(KeyboardEvents);
@@ -187,17 +189,37 @@ void InitializeGLUT(int argc, char **argv) {
 vector<VM::vec2> GenerateGrassPositions() {
     vector<VM::vec2> grassPositions(GRASS_INSTANCES);
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        grassPositions[i] = VM::vec2((i % 4) / 4.0, (i / 4) / 4.0) + VM::vec2(1, 1) / 8;
+        //grassPositions[i] = VM::vec2((i % 4) / 4.0, (i / 4) / 4.0) + VM::vec2(1, 1) / 8;
+        grassPositions[i] = VM::vec2((i % uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES), (i / uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES)) + VM::vec2(1, 1) / (2 * sqrt(GRASS_INSTANCES));
     }
+    cout << grassPositions[0] << endl;
+    cout << grassPositions[GRASS_INSTANCES - 1] << endl;
     return grassPositions;
 }
 
 // Здесь вам нужно будет генерировать меш
 vector<VM::vec4> GenMesh(uint n) {
     return {
-        VM::vec4(0, 0, 0, 1),
-        VM::vec4(1, 0, 0, 1),
-        VM::vec4(0.5, 1, 0, 1),
+        //012
+        VM::vec4(0, 0, 0, 1), //0
+        VM::vec4(1, 0, 0, 1), //1
+        VM::vec4(0.5, 1, 0, 1), //2
+        //123
+        VM::vec4(1, 0, 0, 1), //1
+        VM::vec4(0.5, 1, 0, 1), //2
+        VM::vec4(1.5, 1, 0, 1), //3
+        //234
+        VM::vec4(0.5, 1, 0, 1), //2
+        VM::vec4(1.5, 1, 0, 1), //3
+        VM::vec4(1.5, 2, 0, 1), //4
+        //345
+        VM::vec4(1.5, 1, 0, 1), //3
+        VM::vec4(1.5, 2, 0, 1), //4
+        VM::vec4(2.5, 2, 0, 1), //5
+        //456
+        VM::vec4(1.5, 2, 0, 1), //4
+        VM::vec4(2.5, 2, 0, 1), //5
+        VM::vec4(3.5, 2.5, 0, 1), //6
     };
 }
 

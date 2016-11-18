@@ -3,6 +3,7 @@
 in vec4 point;
 in vec2 position;
 in vec4 variance;
+out vec2 ex_position;
 
 uniform mat4 camera;
 
@@ -15,4 +16,5 @@ void main() {
     positionMatrix[3][2] = position.y;
 
 	gl_Position = camera * (positionMatrix * scaleMatrix * point + variance * point.y);
+    ex_position = position;
 }
