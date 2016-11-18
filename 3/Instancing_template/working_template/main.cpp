@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const uint GRASS_INSTANCES = 1000; // Количество травинок
+const uint GRASS_INSTANCES = 900; // Количество травинок
 
 GL::Camera camera;               // Мы предоставляем Вам реализацию камеры. В OpenGL камера - это просто 2 матрицы. Модельно-видовая матрица и матрица проекции. // ###
                                  // Задача этого класса только в том чтобы обработать ввод с клавиатуры и правильно сформировать эти матрицы.
@@ -55,8 +55,9 @@ void DrawGround() {
 void UpdateGrassVariance() {
     // Генерация случайных смещений
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        grassVarianceData[i].x = (float)rand() / RAND_MAX / 100;
-        grassVarianceData[i].z = (float)rand() / RAND_MAX / 100;
+        //grassVarianceData[i].x = (float)rand() / RAND_MAX / 100;
+        //grassVarianceData[i].z = (float)rand() / RAND_MAX / 100;
+        continue;
     }
 
     // Привязываем буфер, содержащий смещения
@@ -289,6 +290,26 @@ void CreateGrass() {
     glEnableVertexAttribArray(varianceLocation);                                 CHECK_GL_ERRORS
     glVertexAttribPointer(varianceLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
     glVertexAttribDivisor(varianceLocation, 1);                                  CHECK_GL_ERRORS
+
+
+    // Создаем вектор для размеров травинок
+    vector<VM::vec2> grassScales;
+    for (uint i = 0; i < grassPositions.size(); ++i) {
+        float width_scale = 0.002 + (float)rand() / RAND_MAX * 0.004;
+        float height_scale = 0.02 + (float)rand() / RAND_MAX * 0.04;
+        grassScales.push_back(VM::vec2(width_scale, height_scale));
+    }
+
+    // Создаём буфер для размеров травинок
+    GLuint scaleBuffer;
+    glGenBuffers(1, &scaleBuffer);                                            CHECK_GL_ERRORS
+    glBindBuffer(GL_ARRAY_BUFFER, scaleBuffer);                               CHECK_GL_ERRORS
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VM::vec2) * grassPositions.size(), grassScales.data(), GL_STATIC_DRAW); CHECK_GL_ERRORS
+
+    GLuint scalesLocation = glGetAttribLocation(grassShader, "scales");      CHECK_GL_ERRORS
+    glEnableVertexAttribArray(scalesLocation);                                 CHECK_GL_ERRORS
+    glVertexAttribPointer(scalesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
+    glVertexAttribDivisor(scalesLocation, 1);                                  CHECK_GL_ERRORS
 
     // Отвязываем VAO
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
