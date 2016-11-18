@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "Utility.h"
 
 using namespace std;
 
-const uint GRASS_INSTANCES = 900; // Количество травинок
+const uint GRASS_INSTANCES = 10000; // Количество травинок
 
 GL::Camera camera;               // Мы предоставляем Вам реализацию камеры. В OpenGL камера - это просто 2 матрицы. Модельно-видовая матрица и матрица проекции. // ###
                                  // Задача этого класса только в том чтобы обработать ввод с клавиатуры и правильно сформировать эти матрицы.
@@ -166,7 +167,7 @@ void windowReshapeFunc(GLint newWidth, GLint newHeight) {
 // Инициализация окна
 void InitializeGLUT(int argc, char **argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitContextVersion(3, 0);
     glutInitContextProfile(GLUT_CORE_PROFILE);
     glutInitWindowPosition(-1, -1);
@@ -193,8 +194,6 @@ vector<VM::vec2> GenerateGrassPositions() {
         //grassPositions[i] = VM::vec2((i % 4) / 4.0, (i / 4) / 4.0) + VM::vec2(1, 1) / 8;
         grassPositions[i] = VM::vec2((i % uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES), (i / uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES)) + VM::vec2(1, 1) / (2 * sqrt(GRASS_INSTANCES));
     }
-    cout << grassPositions[0] << endl;
-    cout << grassPositions[GRASS_INSTANCES - 1] << endl;
     return grassPositions;
 }
 
@@ -235,7 +234,7 @@ void CreateGrass() {
     vector<VM::vec2> grassPositions = GenerateGrassPositions();
     // Инициализация смещений для травинок
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        grassVarianceData[i] = VM::vec4(0, 0, 0, 0);
+        grassVarianceData[i] = VM::vec4((float)rand() / RAND_MAX / 50, 0, 0, 0);
     }
 
     /* Компилируем шейдеры
@@ -310,6 +309,46 @@ void CreateGrass() {
     glEnableVertexAttribArray(scalesLocation);                                 CHECK_GL_ERRORS
     glVertexAttribPointer(scalesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
     glVertexAttribDivisor(scalesLocation, 1);                                  CHECK_GL_ERRORS
+
+
+    // Создаем вектор углов поворота травинок
+    vector<VM::vec2> grassAngles;
+    for (uint i = 0; i < grassPositions.size(); ++i) {
+        float angle = (float)rand() / RAND_MAX * 2 * M_PI;
+        grassAngles.push_back(VM::vec2(cos(angle), sin(angle)));
+    }
+
+    // Создаём буфер для углов поворота травинок
+    GLuint angleBuffer;
+    glGenBuffers(1, &angleBuffer);                                            CHECK_GL_ERRORS
+    glBindBuffer(GL_ARRAY_BUFFER, angleBuffer);                               CHECK_GL_ERRORS
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VM::vec2) * grassPositions.size(), grassAngles.data(), GL_STATIC_DRAW); CHECK_GL_ERRORS
+
+    GLuint anglesLocation = glGetAttribLocation(grassShader, "y_cos_sin");      CHECK_GL_ERRORS
+    glEnableVertexAttribArray(anglesLocation);                                 CHECK_GL_ERRORS
+    glVertexAttribPointer(anglesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
+    glVertexAttribDivisor(anglesLocation, 1);                                  CHECK_GL_ERRORS
+
+    // Создаем вектор цветов
+    vector<VM::vec4> grassColors;
+    for (uint i = 0; i < grassPositions.size(); ++i) {
+        float shift1 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
+        float shift2 = (-10 + (float)rand() / RAND_MAX * 40 ) / 255;
+        float shift3 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
+        grassColors.push_back(VM::vec4(0.180 + shift1, 0.545 + shift2, 0.341 + shift3, 0));
+    }
+
+    // Создаём буфер для цветов травинок
+    GLuint colorBuffer;
+    glGenBuffers(1, &colorBuffer);                                            CHECK_GL_ERRORS
+    glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);                               CHECK_GL_ERRORS
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VM::vec4) * grassPositions.size(), grassColors.data(), GL_STATIC_DRAW); CHECK_GL_ERRORS
+
+    GLuint colorsLocation = glGetAttribLocation(grassShader, "in_color");      CHECK_GL_ERRORS
+    glEnableVertexAttribArray(colorsLocation);                                 CHECK_GL_ERRORS
+    glVertexAttribPointer(colorsLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
+    glVertexAttribDivisor(colorsLocation, 1);                                  CHECK_GL_ERRORS
+
 
     // Отвязываем VAO
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
