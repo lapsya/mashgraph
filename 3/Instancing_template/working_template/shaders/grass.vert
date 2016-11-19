@@ -27,5 +27,5 @@ void main() {
 
 
     out_color = in_color;
-	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + positionMatrix * rotation * variance * point.y);
+	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + positionMatrix * variance * point.y);
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Utility.h"
+#include "SOIL.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ GLuint grassShader;      // Шейдер, рисующий траву
 GLuint grassVAO;         // VAO для травы (что такое VAO почитайте в доках)
 GLuint grassVariance;    // Буфер для смещения координат травинок
 vector<VM::vec4> grassVarianceData(GRASS_INSTANCES); // Вектор со смещениями для координат травинок
+GLuint groundTex;        // Текстура для земли
 
 GLuint groundShader; // Шейдер для земли
 GLuint groundVAO; // VAO для земли
@@ -43,8 +45,12 @@ void DrawGround() {
     // Подключаем VAO, который содержит буферы, необходимые для отрисовки земли
     glBindVertexArray(groundVAO);                                                CHECK_GL_ERRORS
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, groundTex);
     // Рисуем землю: 2 треугольника (6 вершин)
     glDrawArrays(GL_TRIANGLES, 0, 6);                                            CHECK_GL_ERRORS
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     // Отсоединяем VAO
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
@@ -52,11 +58,22 @@ void DrawGround() {
     glUseProgram(0);                                                             CHECK_GL_ERRORS
 }
 
+bool neg = false;
+
 // Обновление смещения травинок
 void UpdateGrassVariance() {
     // Генерация случайных смещений
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        //grassVarianceData[i].x = (float)rand() / RAND_MAX / 100;
+        if (grassVarianceData[i].x > 0.05) {
+            neg = true;
+        } else if (grassVarianceData[i].x <= 0) {
+            neg = false;
+        }
+        if (neg) {
+            grassVarianceData[i].x -= 0.001;
+        } else {
+            grassVarianceData[i].x += 0.001;
+        }
         //grassVarianceData[i].z = (float)rand() / RAND_MAX / 100;
         continue;
     }
@@ -89,6 +106,7 @@ void DrawGrass() {
 void RenderLayouts() {
     // Включение буфера глубины
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
     // Очистка буфера глубины и цветового буфера
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Рисуем меши
@@ -397,6 +415,25 @@ void CreateGround() {
 
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
     glBindBuffer(GL_ARRAY_BUFFER, 0);                                            CHECK_GL_ERRORS
+
+
+    glGenTextures(1, &groundTex);
+    glBindTexture(GL_TEXTURE_2D, groundTex);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height;
+    unsigned char* image = SOIL_load_image("Texture/zeml2.png", &width, &height, 0, SOIL_LOAD_RGBA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+              GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    //glGetUniformLocation(groundShader, "tex");
 }
 
 int main(int argc, char **argv)
