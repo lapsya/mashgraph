@@ -216,7 +216,8 @@ vector<VM::vec2> GenerateGrassPositions() {
     vector<VM::vec2> grassPositions(GRASS_INSTANCES);
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
         //grassPositions[i] = VM::vec2((i % 4) / 4.0, (i / 4) / 4.0) + VM::vec2(1, 1) / 8;
-        grassPositions[i] = VM::vec2((i % uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES), (i / uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES)) + VM::vec2(1, 1) / (2 * sqrt(GRASS_INSTANCES));
+        //grassPositions[i] = VM::vec2((i % uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES), (i / uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES)) + VM::vec2(1, 1) / (2 * sqrt(GRASS_INSTANCES));
+        grassPositions[i] = VM::vec2((float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
     }
     return grassPositions;
 }
@@ -244,6 +245,28 @@ vector<VM::vec4> GenMesh(uint n) {
         VM::vec4(1.5, 2, 0, 1), //4
         VM::vec4(2.5, 2, 0, 1), //5
         VM::vec4(3.5, 2.5, 0, 1), //6
+
+/*        //012
+        VM::vec4(0, 0, 0, 1), //0
+        VM::vec4(1, 0, 0, 1), //1
+        VM::vec4(0.5, 1, 0, 1), //2
+        //123
+        VM::vec4(1, 0, 0, 1), //1
+        VM::vec4(0.5, 1, 0, 1), //2
+        VM::vec4(1, 1, 0, 1), //3
+        //234
+        VM::vec4(0.5, 1, 0, 1), //2
+        VM::vec4(1, 1, 0, 1), //3
+        VM::vec4(1, 5.0/3, 0, 1), //4
+        //245
+        VM::vec4(0.5, 1, 0, 1), //2
+        VM::vec4(1, 5.0/3, 0, 1), //4
+        VM::vec4(3.0/4, 2, 0, 1), //5
+        //456
+        VM::vec4(1, 5.0/3, 0, 1), //4
+        VM::vec4(3.0/4, 2, 0, 1), //5
+        VM::vec4(1, 8.0/3, 0, 1), //6
+*/
     };
 }
 
@@ -314,7 +337,6 @@ void CreateGrass() {
     glVertexAttribPointer(varianceLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
     glVertexAttribDivisor(varianceLocation, 1);                                  CHECK_GL_ERRORS
 
-
     // Создаем вектор для размеров травинок
     vector<VM::vec2> grassScales;
     for (uint i = 0; i < grassPositions.size(); ++i) {
@@ -354,15 +376,15 @@ void CreateGrass() {
     glVertexAttribDivisor(anglesLocation, 1);                                  CHECK_GL_ERRORS
 
     // Создаем вектор цветов
-    vector<VM::vec4> grassColors;
-    for (uint i = 0; i < grassPositions.size(); ++i) {
-        float shift1 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
-        float shift2 = (-10 + (float)rand() / RAND_MAX * 40 ) / 255;
-        float shift3 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
-        grassColors.push_back(VM::vec4(0.180 + shift1, 0.545 + shift2, 0.341 + shift3, 0));
-    }
-
-    // Создаём буфер для цветов травинок
+    // vector<VM::vec4> grassColors;
+    // for (uint i = 0; i < grassPositions.size(); ++i) {
+    //     float shift1 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
+    //     float shift2 = (-10 + (float)rand() / RAND_MAX * 40 ) / 255;
+    //     float shift3 = (-5 + (float)rand() / RAND_MAX * 10 ) / 255;
+    //     grassColors.push_back(VM::vec4(0.180 + shift1, 0.545 + shift2, 0.341 + shift3, 0));
+    // }
+    //
+    //Создаём буфер для цветов травинок
     // GLuint colorBuffer;
     // glGenBuffers(1, &colorBuffer);                                            CHECK_GL_ERRORS
     // glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);                               CHECK_GL_ERRORS
