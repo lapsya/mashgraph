@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const uint GRASS_INSTANCES = 10000; // Количество травинок
+const uint GRASS_INSTANCES = 100; // Количество травинок
 
 GL::Camera camera;               // Мы предоставляем Вам реализацию камеры. В OpenGL камера - это просто 2 матрицы. Модельно-видовая матрица и матрица проекции. // ###
                                  // Задача этого класса только в том чтобы обработать ввод с клавиатуры и правильно сформировать эти матрицы.
@@ -20,6 +20,7 @@ GLuint grassVAO;         // VAO для травы (что такое VAO поч�
 GLuint grassVariance;    // Буфер для смещения координат травинок
 vector<VM::vec4> grassVarianceData(GRASS_INSTANCES); // Вектор со смещениями для координат травинок
 GLuint groundTex;        // Текстура для земли
+GLuint grassTex;         // Текстура для травы
 
 GLuint groundShader; // Шейдер для земли
 GLuint groundVAO; // VAO для земли
@@ -64,16 +65,16 @@ bool neg = false;
 void UpdateGrassVariance() {
     // Генерация случайных смещений
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        if (grassVarianceData[i].x > 0.05) {
-            neg = true;
-        } else if (grassVarianceData[i].x <= 0) {
-            neg = false;
-        }
-        if (neg) {
-            grassVarianceData[i].x -= 0.001;
-        } else {
-            grassVarianceData[i].x += 0.001;
-        }
+        // if (grassVarianceData[i].x > 0.05) {
+        //     neg = true;
+        // } else if (grassVarianceData[i].x <= 0) {
+        //     neg = false;
+        // }
+        // if (neg) {
+        //     grassVarianceData[i].x -= 0.001;
+        // } else {
+        //     grassVarianceData[i].x += 0.001;
+        // }
         //grassVarianceData[i].z = (float)rand() / RAND_MAX / 100;
         continue;
     }
@@ -97,7 +98,12 @@ void DrawGrass() {
     // Обновляем смещения для травы
     UpdateGrassVariance();
     // Отрисовка травинок в количестве GRASS_INSTANCES
+    glBindTexture(GL_TEXTURE_2D, grassTex);                                     CHECK_GL_ERRORS
+
     glDrawArraysInstanced(GL_TRIANGLES, 0, grassPointsCount, GRASS_INSTANCES);   CHECK_GL_ERRORS
+
+    glBindTexture(GL_TEXTURE_2D, 0);                                            CHECK_GL_ERRORS
+
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
     glUseProgram(0);                                                             CHECK_GL_ERRORS
 }
@@ -357,21 +363,41 @@ void CreateGrass() {
     }
 
     // Создаём буфер для цветов травинок
-    GLuint colorBuffer;
-    glGenBuffers(1, &colorBuffer);                                            CHECK_GL_ERRORS
-    glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);                               CHECK_GL_ERRORS
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VM::vec4) * grassPositions.size(), grassColors.data(), GL_STATIC_DRAW); CHECK_GL_ERRORS
-
-    GLuint colorsLocation = glGetAttribLocation(grassShader, "in_color");      CHECK_GL_ERRORS
-    glEnableVertexAttribArray(colorsLocation);                                 CHECK_GL_ERRORS
-    glVertexAttribPointer(colorsLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
-    glVertexAttribDivisor(colorsLocation, 1);                                  CHECK_GL_ERRORS
+    // GLuint colorBuffer;
+    // glGenBuffers(1, &colorBuffer);                                            CHECK_GL_ERRORS
+    // glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);                               CHECK_GL_ERRORS
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(VM::vec4) * grassPositions.size(), grassColors.data(), GL_STATIC_DRAW); CHECK_GL_ERRORS
+    //
+    // GLuint colorsLocation = glGetAttribLocation(grassShader, "in_color");      CHECK_GL_ERRORS
+    // glEnableVertexAttribArray(colorsLocation);                                 CHECK_GL_ERRORS
+    // glVertexAttribPointer(colorsLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);        CHECK_GL_ERRORS
+    // glVertexAttribDivisor(colorsLocation, 1);                                  CHECK_GL_ERRORS
 
 
     // Отвязываем VAO
     glBindVertexArray(0);                                                        CHECK_GL_ERRORS
     // Отвязываем буфер
     glBindBuffer(GL_ARRAY_BUFFER, 0);                                            CHECK_GL_ERRORS
+
+    glGenTextures(1, &grassTex);                                                CHECK_GL_ERRORS
+    glBindTexture(GL_TEXTURE_2D, grassTex);                                     CHECK_GL_ERRORS
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height;
+    unsigned char* image = SOIL_load_image("Texture/grass.jpg", &width, &height, 0, SOIL_LOAD_RGBA); CHECK_GL_ERRORS
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+              GL_UNSIGNED_BYTE, image);                                          CHECK_GL_ERRORS
+    glGenerateMipmap(GL_TEXTURE_2D);                                             CHECK_GL_ERRORS
+    SOIL_free_image_data(image);                                                CHECK_GL_ERRORS
+    glBindTexture(GL_TEXTURE_2D, 0);                                             CHECK_GL_ERRORS
+    int a = 0;
+    if (a) {
+        cout << "wtf\n";
+    }
 }
 
 // Создаём камеру (Если шаблонная камера вам не нравится, то можете переделать, но я бы не стал)
