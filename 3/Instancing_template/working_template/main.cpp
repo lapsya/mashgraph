@@ -217,7 +217,7 @@ vector<VM::vec2> GenerateGrassPositions() {
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
         //grassPositions[i] = VM::vec2((i % 4) / 4.0, (i / 4) / 4.0) + VM::vec2(1, 1) / 8;
         //grassPositions[i] = VM::vec2((i % uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES), (i / uint(sqrt(GRASS_INSTANCES))) / sqrt(GRASS_INSTANCES)) + VM::vec2(1, 1) / (2 * sqrt(GRASS_INSTANCES));
-        grassPositions[i] = VM::vec2((float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
+        grassPositions[i] = VM::vec2(0.005 + (float)rand()/RAND_MAX * 0.99, 0.005 + (float)rand()/RAND_MAX * 0.99);
     }
     return grassPositions;
 }
@@ -225,7 +225,7 @@ vector<VM::vec2> GenerateGrassPositions() {
 // Здесь вам нужно будет генерировать меш
 vector<VM::vec4> GenMesh(uint n) {
     return {
-        //012
+/*        //012
         VM::vec4(0, 0, 0, 1), //0
         VM::vec4(1, 0, 0, 1), //1
         VM::vec4(0.5, 1, 0, 1), //2
@@ -245,7 +245,7 @@ vector<VM::vec4> GenMesh(uint n) {
         VM::vec4(1.5, 2, 0, 1), //4
         VM::vec4(2.5, 2, 0, 1), //5
         VM::vec4(3.5, 2.5, 0, 1), //6
-
+*/
 /*        //012
         VM::vec4(0, 0, 0, 1), //0
         VM::vec4(1, 0, 0, 1), //1
@@ -267,6 +267,35 @@ vector<VM::vec4> GenMesh(uint n) {
         VM::vec4(3.0/4, 2, 0, 1), //5
         VM::vec4(1, 8.0/3, 0, 1), //6
 */
+        //012
+        VM::vec4(0, 0, 0, 1), //0
+        VM::vec4(1, 0, 0, 1), //1
+        VM::vec4(4.375 / 5, 7.5 / 30, -0.003, 1), //2
+        //023
+        VM::vec4(0, 0, 0, 1), //0
+        VM::vec4(4.375 / 5, 7.5 / 30, -0.003, 1), //2
+        VM::vec4(0.625 / 5, 7.5 / 30, -0.003, 1), //3
+        //234
+        VM::vec4(4.375 / 5, 7.5 / 30, -0.003, 1), //2
+        VM::vec4(0.625 / 5, 7.5 / 30, -0.003, 1), //3
+        VM::vec4(1.25 / 5, 15.0 / 30, -0.008, 1), //4
+        //245
+        VM::vec4(4.375 / 5, 7.5 / 30, -0.003, 1), //2
+        VM::vec4(1.25 / 5, 15.0 / 30, -0.008, 1), //4
+        VM::vec4(3.75 / 5, 15.0 / 30, -0.008, 1), //5
+        //456
+        VM::vec4(1.25 / 5, 15.0 / 30, -0.008, 1), //4
+        VM::vec4(3.75 / 5, 15.0 / 30, -0.008, 1), //5
+        VM::vec4(3.125 / 5, 22.5 / 30, -0.013, 1), //6
+        //467
+        VM::vec4(1.25 / 5, 15.0 / 30, -0.008, 1), //4
+        VM::vec4(3.125 / 5, 22.5 / 30, -0.013, 1), //6
+        VM::vec4(1.875 / 5, 22.5 / 30, -0.013, 1), //7
+        //678
+        VM::vec4(3.125 / 5, 22.5 / 30, -0.013, 1), //6
+        VM::vec4(1.875 / 5, 22.5 / 30, -0.013, 1), //7
+        VM::vec4(2.5 / 5, 26.0 / 30, -0.018, 1), //8
+
     };
 }
 
@@ -281,7 +310,7 @@ void CreateGrass() {
     vector<VM::vec2> grassPositions = GenerateGrassPositions();
     // Инициализация смещений для травинок
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        grassVarianceData[i] = VM::vec4((float)rand() / RAND_MAX / 50, 0, 0, 0);
+        grassVarianceData[i] = VM::vec4((float)rand() / RAND_MAX / 10, 0, 0, 0);
     }
 
     /* Компилируем шейдеры
@@ -341,7 +370,7 @@ void CreateGrass() {
     vector<VM::vec2> grassScales;
     for (uint i = 0; i < grassPositions.size(); ++i) {
         float width_scale = 0.002 + (float)rand() / RAND_MAX * 0.004;
-        float height_scale = 0.02 + (float)rand() / RAND_MAX * 0.04;
+        float height_scale = 0.05 +(-1 + (float)rand() / RAND_MAX * 2) * 0.04;
         grassScales.push_back(VM::vec2(width_scale, height_scale));
     }
 

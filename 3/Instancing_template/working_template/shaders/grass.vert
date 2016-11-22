@@ -26,11 +26,11 @@ void main() {
     rotation[0][2] = y_cos_sin.y;
 
 
-	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + positionMatrix * variance * point.y);
+	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + positionMatrix * rotation * scaleMatrix * variance * point.y);
     float scale = sqrt(point.x * point.x + point.y * point.y);
     if (point.x == 0 && point.y == 0) {
-        UVcoords = vec2(0, 0);
+        UVcoords = vec2(1, 1);
     } else {
-        UVcoords = vec2(point.x / sqrt(point.x * point.x + point.y * point.y), point.y / sqrt(point.x * point.x + point.y * point.y));
+        UVcoords = vec2(1 - point.x /scale, 1 - point.y / scale);
     }
 }
