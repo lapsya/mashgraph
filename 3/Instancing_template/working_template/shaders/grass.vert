@@ -27,10 +27,5 @@ void main() {
 
 
 	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + variance * point.y);
-    float scale = sqrt(point.x * point.x + point.y * point.y);
-    if (point.x == 0 && point.y == 0) {
-        UVcoords = vec2(1, 1);
-    } else {
-        UVcoords = vec2(1 - point.x /scale, 1 - point.y / scale);
-    }
+    UVcoords = vec2(1 - point.x, 1 - point.y);
 }
