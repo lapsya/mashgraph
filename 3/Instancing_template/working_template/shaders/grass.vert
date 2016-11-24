@@ -26,7 +26,7 @@ void main() {
     rotation[0][2] = y_cos_sin.y;
 
 
-	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + positionMatrix * rotation * scaleMatrix * variance * point.y);
+	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + variance * point.y);
     float scale = sqrt(point.x * point.x + point.y * point.y);
     if (point.x == 0 && point.y == 0) {
         UVcoords = vec2(1, 1);

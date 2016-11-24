@@ -59,12 +59,37 @@ void DrawGround() {
     glUseProgram(0);                                                             CHECK_GL_ERRORS
 }
 
-bool neg = false;
+//float wind_force = 1;
+//float k = 1;
+//float m = 0.005;
+//vector<float> v{0}; //initial velocity
+bool down = true;
+int t = 0;
 
 // Обновление смещения травинок
 void UpdateGrassVariance() {
     // Генерация случайных смещений
+    if (t == 0) {
+        down = true;
+    } else if (t == 70) {
+        down = false;
+    }
+    if (down) {
+        ++t;
+    } else {
+        --t;
+    }
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
+        if (down) {
+            grassVarianceData[i].x -= 0.0001;
+            grassVarianceData[i].y -= 0.0001;
+        } else {
+            grassVarianceData[i].x += 0.0001;
+            grassVarianceData[i].y += 0.0001;
+        }
+        //float a = (wind_force - k * grassPositions[i].x) / m;
+        //v[i] = v[i] + a * t;
+        //grassPositions[i].x = grassPositions[i].x + v[i] * t;
         // if (grassVarianceData[i].x > 0.05) {
         //     neg = true;
         // } else if (grassVarianceData[i].x <= 0) {
@@ -310,7 +335,7 @@ void CreateGrass() {
     vector<VM::vec2> grassPositions = GenerateGrassPositions();
     // Инициализация смещений для травинок
     for (uint i = 0; i < GRASS_INSTANCES; ++i) {
-        grassVarianceData[i] = VM::vec4((float)rand() / RAND_MAX / 10, 0, 0, 0);
+        grassVarianceData[i] = VM::vec4(0.004 * (float)rand() / RAND_MAX / 10, 0, 0, 0);
     }
 
     /* Компилируем шейдеры
