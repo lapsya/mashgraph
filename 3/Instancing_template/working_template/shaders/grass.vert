@@ -5,6 +5,8 @@ in vec2 position;
 in vec4 variance;
 in vec2 scales;
 in vec2 y_cos_sin;
+in vec4 in_color;
+out vec4 out_color;
 out vec2 UVcoords;
 
 
@@ -25,7 +27,10 @@ void main() {
     rotation[2][0] = -y_cos_sin.y;
     rotation[0][2] = y_cos_sin.y;
 
+    vec4 var = vec4(variance.x * scales.y, variance.y - 0.02 * point.y , variance.z, variance.w);
 
-	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + variance * point.y);
+
+	gl_Position = camera * (positionMatrix * rotation * scaleMatrix * point + var * point.y * point.y / 2.0);
     UVcoords = vec2(1 - point.x, 1 - point.y);
+    out_color = in_color;
 }
